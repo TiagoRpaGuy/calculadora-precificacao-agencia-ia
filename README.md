@@ -16,6 +16,7 @@ Ferramenta avançada para precificação de projetos RPA, suportando múltiplos 
 
 - **Frontend**: Vite + React + TypeScript
 - **Estilização**: Tailwind CSS + Lucide Icons
+- **Desktop**: Electron (para geração de executável)
 - **Utils**: date-fns
 
 ## Como Rodar o Projeto
@@ -23,20 +24,30 @@ Ferramenta avançada para precificação de projetos RPA, suportando múltiplos 
 ### Pré-requisitos
 - Node.js instalado (versão 18+ recomendada).
 
-### Passo a Passo
+### Passo a Passo (Terminal)
 
 1. **Instale as dependências**:
    ```bash
    npm install
    ```
 
-2. **Rode o servidor de desenvolvimento**:
+2. **Modo de Desenvolvimento (Web)**:
    ```bash
    npm run dev
    ```
    Acesse a URL indicada (ex: `http://localhost:5173`).
 
-3. **Gere o build de produção**:
+3. **Gere o Executável (.exe)**:
+   Para criar o arquivo `.exe` para Windows:
+   ```bash
+   npm run package
+   ```
+   O executável será gerado na pasta `dist_exec/Calculadora RPA-win32-x64/`.
+   Procure pelo arquivo `Calculadora RPA.exe`.
+   
+   *(Alternativa: `npm run dist` tenta gerar um instalador, mas pode exibir erros de dependência).*
+
+4. **Gere apenas o build Web**:
    ```bash
    npm run build
    ```

@@ -31,3 +31,8 @@ Thumbs.db
 
 # Backup
 legacy_backup/
+
+# Electron
+dist_electron/
+
+dist_exec/
