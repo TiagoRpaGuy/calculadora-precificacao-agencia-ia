@@ -22,10 +22,7 @@ export function HourlyPricingPage() {
     const [scenarios, setScenarios] = useState<HourlyScenarioData[]>([
         createDefaultScenario(1)
     ]);
-    const [participants, setParticipants] = useState<Participant[]>([
-        { id: 1, name: 'Participante 1', percentage: 70 },
-        { id: 2, name: 'Participante 2', percentage: 30 }
-    ]);
+    const [participants, setParticipants] = useState<Participant[]>([]);
     const [results, setResults] = useState<HourlyScenarioResult[]>([]);
 
     // Handle number of scenarios change

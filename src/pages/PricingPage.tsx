@@ -12,10 +12,7 @@ export function PricingPage() {
     const [scenarios, setScenarios] = useState<ScenarioData[]>([
         { id: 1, totalProjeto: '', entradaReais: '', entradaPercentual: '', parcelas: '', dataPrimeiraParcela: '' }
     ]);
-    const [participants, setParticipants] = useState<Participant[]>([
-        { id: 1, name: 'Participante 1', percentage: 70 },
-        { id: 2, name: 'Participante 2', percentage: 30 }
-    ]);
+    const [participants, setParticipants] = useState<Participant[]>([]);
     const [results, setResults] = useState<ScenarioResult[]>([]);
     const [globalTotal, setGlobalTotal] = useState<string>('');
 
