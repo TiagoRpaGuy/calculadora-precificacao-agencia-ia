@@ -10,7 +10,7 @@ interface HourlyScenarioDetailsProps {
 
 export const HourlyScenarioDetails: React.FC<HourlyScenarioDetailsProps> = ({ scenario }) => {
     return (
-        <div className="p-6 bg-gray-50 border-t border-gray-200">
+        <div className="p-4 sm:p-6 bg-gray-50 border-t border-gray-200 overflow-x-auto max-w-full">
             <h4 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 Detalhes de {scenario.nome}
             </h4>
