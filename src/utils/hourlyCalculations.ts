@@ -1,8 +1,8 @@
 import { addDays, format } from 'date-fns';
-import { HourlyScenarioData, HourlyScenarioResult } from '../types';
+import { HourlyScenarioData, HourlyScenarioResult, Participant } from '../types';
 import { parseCurrency } from './calculations';
 
-export const calculateHourlyScenario = (scenario: HourlyScenarioData): HourlyScenarioResult => {
+export const calculateHourlyScenario = (scenario: HourlyScenarioData, participants: Participant[] = []): HourlyScenarioResult => {
     const result: HourlyScenarioResult = {
         id: scenario.id,
         nome: `Cenário ${scenario.id}`,
@@ -21,6 +21,8 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData): HourlySce
         valorParcelaSemanal: 0,
         valorMensalEstimado: 0,
         valorDiarioMedio: 0,
+        // Divisão de lucros
+        participantsShares: [],
         // Cronograma
         dataPrimeiraParcela: '',
         dataUltimaParcela: '',
@@ -90,7 +92,15 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData): HourlySce
             // Valor diário médio = valorParcelaSemanal / 7
             result.valorDiarioMedio = result.valorParcelaSemanal / 7;
 
-            // 9) Cronograma de parcelas semanais
+            // 9) Divisão de lucros entre participantes
+            result.participantsShares = participants.map(p => ({
+                name: p.name,
+                percentage: p.percentage,
+                shareTotal: result.valorFinanciado * (p.percentage / 100),
+                shareMensal: result.valorParcelaSemanal * 4.345 * (p.percentage / 100)
+            }));
+
+            // 10) Cronograma de parcelas semanais
             if (scenario.dataPrimeiraParcela) {
                 const [y, m, d] = scenario.dataPrimeiraParcela.split('-').map(Number);
                 const startDate = new Date(y, m - 1, d);

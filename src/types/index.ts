@@ -73,6 +73,8 @@ export interface HourlyScenarioResult {
     valorParcelaSemanal: number;
     valorMensalEstimado: number;
     valorDiarioMedio: number;
+    // Divisão de lucros
+    participantsShares: ParticipantShare[];
     // Cronograma
     dataPrimeiraParcela: string;
     dataUltimaParcela: string;

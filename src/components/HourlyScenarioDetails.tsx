@@ -107,6 +107,34 @@ export const HourlyScenarioDetails: React.FC<HourlyScenarioDetailsProps> = ({ sc
                 </div>
             )}
 
+            {/* Divisão de Lucros */}
+            {scenario.participantsShares && scenario.participantsShares.length > 0 && (
+                <div className="bg-white p-4 rounded-md shadow-sm border border-gray-100 mb-6">
+                    <h5 className="font-semibold text-gray-600 mb-3 border-b pb-1">Divisão de Lucros</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {scenario.participantsShares.map((share, index) => (
+                            <div key={index} className="bg-purple-50 p-3 rounded-lg border border-purple-100">
+                                <div className="font-semibold text-purple-700 mb-2">{share.name}</div>
+                                <div className="space-y-1 text-sm">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">Participação:</span>
+                                        <span className="font-medium text-gray-900">{share.percentage}%</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">Total:</span>
+                                        <span className="font-medium text-green-700">{formatCurrency(share.shareTotal)}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-500">Mensal Est.:</span>
+                                        <span className="font-medium text-gray-900">{formatCurrency(share.shareMensal)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
             <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-md border border-gray-100">
                 <div className="flex gap-4 text-sm text-gray-600 mb-4 sm:mb-0">
                     <div className="flex items-center gap-2">
