@@ -7,6 +7,7 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData, participan
         id: scenario.id,
         nome: `Cenário ${scenario.id}`,
         // Visão Geral
+        valorHora: 0,
         horasNoMes: 0,
         valorPorDia: 0,
         valorSemanal: 0,
@@ -43,6 +44,9 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData, participan
         if (valorHora <= 0 || horasPorDia <= 0 || diasPorSemana <= 0) {
             return result;
         }
+
+        // Armazena valor por hora no resultado
+        result.valorHora = valorHora;
 
         // 1) Horas no mês = horasPorDia × diasPorSemana × semanasPorMes
         result.horasNoMes = horasPorDia * diasPorSemana * semanasPorMes;

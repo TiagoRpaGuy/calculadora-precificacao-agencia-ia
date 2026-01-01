@@ -33,6 +33,7 @@ export const HourlyResultsTable: React.FC<HourlyResultsTableProps> = ({ results 
                     <tr>
                         <th className="px-4 py-3 w-8"></th>
                         <th scope="col" className="px-6 py-3">Cenário</th>
+                        <th scope="col" className="px-6 py-3 bg-purple-50">Valor/Hora</th>
                         <th scope="col" className="px-6 py-3">Horas/Mês</th>
                         <th scope="col" className="px-6 py-3 bg-green-50">Valor Mensal</th>
                         <th scope="col" className="px-6 py-3">Entrada (R$)</th>
@@ -59,6 +60,9 @@ export const HourlyResultsTable: React.FC<HourlyResultsTableProps> = ({ results 
                                 </td>
                                 <td className="px-6 py-4 font-bold text-gray-900 whitespace-nowrap">
                                     {result.nome}
+                                </td>
+                                <td className="px-6 py-4 font-semibold text-purple-600 bg-purple-50">
+                                    {formatCurrency(result.valorHora)}
                                 </td>
                                 <td className="px-6 py-4">
                                     {result.horasNoMes.toLocaleString('pt-BR', { maximumFractionDigits: 1 })}h
@@ -87,7 +91,7 @@ export const HourlyResultsTable: React.FC<HourlyResultsTableProps> = ({ results 
                             </tr>
                             {expandedIds.includes(result.id) && (
                                 <tr>
-                                    <td colSpan={10} className="p-0 border-b bg-gray-50">
+                                    <td colSpan={11} className="p-0 border-b bg-gray-50">
                                         <div className="slide-down-animation">
                                             <HourlyScenarioDetails scenario={result} />
                                         </div>

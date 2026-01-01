@@ -59,6 +59,7 @@ export interface HourlyScenarioResult {
     id: number;
     nome: string;
     // Visão Geral
+    valorHora: number;          // Valor por hora utilizado
     horasNoMes: number;
     valorPorDia: number;
     valorSemanal: number;
