@@ -40,3 +40,41 @@ export interface ScenarioResult {
     datasSemanais: string[];
     error?: string;
 }
+
+// Dados de entrada do cenário por hora
+export interface HourlyScenarioData {
+    id: number;
+    valorHora: string;          // Valor por hora (R$)
+    horasPorDia: string;        // Horas trabalhadas por dia
+    diasPorSemana: string;      // Dias trabalhados por semana
+    semanasPorMes: string;      // Semanas no mês (default 4.345)
+    entradaPercentual: string;  // % de entrada
+    dataPrimeiraParcela: string;// Data da 1ª parcela
+    parcelasSemanais: string;   // Quantidade de parcelas semanais
+}
+
+// Resultado calculado do cenário por hora
+export interface HourlyScenarioResult {
+    id: number;
+    nome: string;
+    // Visão Geral
+    horasNoMes: number;
+    valorPorDia: number;
+    valorSemanal: number;
+    valorMensalTotal: number;
+    // Pagamento
+    entradaReais: number;
+    entradaPercentual: number;
+    valorFinanciado: number;
+    totalContrato: number;
+    // Parcelamento
+    numeroParcelas: number;
+    valorParcelaSemanal: number;
+    valorMensalEstimado: number;
+    valorDiarioMedio: number;
+    // Cronograma
+    dataPrimeiraParcela: string;
+    dataUltimaParcela: string;
+    datasSemanais: string[];
+    error?: string;
+}
