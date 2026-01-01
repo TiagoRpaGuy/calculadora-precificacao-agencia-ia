@@ -11,6 +11,7 @@ const createDefaultScenario = (id: number): HourlyScenarioData => ({
     horasPorDia: '8',
     diasPorSemana: '5',
     semanasPorMes: '4.345',
+    entradaReais: '',
     entradaPercentual: '',
     dataPrimeiraParcela: '',
     parcelasSemanais: '4',

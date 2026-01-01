@@ -48,6 +48,7 @@ export interface HourlyScenarioData {
     horasPorDia: string;        // Horas trabalhadas por dia
     diasPorSemana: string;      // Dias trabalhados por semana
     semanasPorMes: string;      // Semanas no mês (default 4.345)
+    entradaReais: string;       // Entrada em R$ (valor absoluto)
     entradaPercentual: string;  // % de entrada
     dataPrimeiraParcela: string;// Data da 1ª parcela
     parcelasSemanais: string;   // Quantidade de parcelas semanais

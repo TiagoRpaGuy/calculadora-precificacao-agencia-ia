@@ -66,8 +66,16 @@ export const HourlyScenarioCard: React.FC<HourlyScenarioCardProps> = ({ scenario
                     <p className="text-xs text-gray-400">Média padrão: 4,345 semanas</p>
                 </div>
 
+                <CurrencyInput
+                    label="Entrada em R$ (Opcional)"
+                    value={scenario.entradaReais}
+                    onValueChange={(val) => onChange(scenario.id, 'entradaReais', val)}
+                />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
-                    <label className="text-sm font-semibold text-gray-700">Entrada (%)</label>
+                    <label className="text-sm font-semibold text-gray-700">Entrada em % (Opcional)</label>
                     <div className="relative">
                         <input
                             type="text"
@@ -78,6 +86,7 @@ export const HourlyScenarioCard: React.FC<HourlyScenarioCardProps> = ({ scenario
                         />
                         <span className="absolute right-3 top-2.5 text-gray-400">%</span>
                     </div>
+                    <p className="text-xs text-gray-400">Valor em R$ tem prioridade se preenchido</p>
                 </div>
             </div>
 

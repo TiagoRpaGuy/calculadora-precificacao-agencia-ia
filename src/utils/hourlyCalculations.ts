@@ -33,7 +33,8 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData): HourlySce
         const horasPorDia = parseFloat(scenario.horasPorDia) || 0;
         const diasPorSemana = parseFloat(scenario.diasPorSemana) || 0;
         const semanasPorMes = parseFloat(scenario.semanasPorMes) || 4.345;
-        const entradaPct = parseFloat(scenario.entradaPercentual.replace(',', '.')) || 0;
+        const entradaReaisInput = parseCurrency(scenario.entradaReais);
+        const entradaPctInput = parseFloat(scenario.entradaPercentual.replace(',', '.')) || 0;
         const parcelasSemanais = parseInt(scenario.parcelasSemanais) || 0;
 
         // Validações básicas - prevenção de divisão por zero
@@ -56,9 +57,22 @@ export const calculateHourlyScenario = (scenario: HourlyScenarioData): HourlySce
         // 5) Total do contrato = valor mensal total (representa 1 mês de trabalho)
         result.totalContrato = result.valorMensalTotal;
 
-        // 6) Entrada (R$) = valorMensalTotal × (entradaPercentual / 100)
+        // 6) Lógica de Entrada: Valor em R$ tem prioridade, se não, usa %
+        let entradaVal = 0;
+        let entradaPct = 0;
+
+        if (entradaReaisInput > 0) {
+            // Valor em R$ informado - calcula o percentual
+            entradaVal = entradaReaisInput;
+            entradaPct = (entradaVal / result.valorMensalTotal) * 100;
+        } else if (entradaPctInput > 0) {
+            // Apenas percentual informado - calcula o valor em R$
+            entradaPct = entradaPctInput;
+            entradaVal = result.valorMensalTotal * (entradaPct / 100);
+        }
+
+        result.entradaReais = entradaVal;
         result.entradaPercentual = entradaPct;
-        result.entradaReais = result.valorMensalTotal * (entradaPct / 100);
 
         // 7) Valor financiado = valorMensalTotal - entradaReais
         result.valorFinanciado = Math.max(0, result.valorMensalTotal - result.entradaReais);
