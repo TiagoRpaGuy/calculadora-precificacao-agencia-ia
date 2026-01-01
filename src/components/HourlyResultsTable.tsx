@@ -93,7 +93,7 @@ export const HourlyResultsTable: React.FC<HourlyResultsTableProps> = ({ results 
                                 {expandedIds.includes(result.id) && (
                                     <tr>
                                         <td colSpan={11} className="p-0 border-b bg-gray-50">
-                                            <div className="slide-down-animation">
+                                            <div className="slide-down-animation w-full" style={{ maxWidth: 'calc(100vw - 4rem)' }}>
                                                 <HourlyScenarioDetails scenario={result} />
                                             </div>
                                         </td>
