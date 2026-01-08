@@ -1,7 +1,7 @@
 {
-  "name": "calculadora-rpa-soares-logistica",
+  "name": "calculadora-precificacao-agencia-ia",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "electron": "electron .",
     "dist": "tsc -b && vite build && electron-builder",
-    "package": "tsc -b && vite build && electron-packager . \"Calculadora RPA\" --platform=win32 --arch=x64 --out=dist_exec --overwrite"
+    "package": "tsc -b && vite build && electron-packager . \"Agencia IA Pricing\" --platform=win32 --arch=x64 --out=dist_exec --overwrite"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -39,8 +39,8 @@
     "wait-on": "^9.0.3"
   },
   "build": {
-    "appId": "com.soareslogistica.precificacao",
-    "productName": "Calculadora RPA Soares Logistica",
+    "appId": "com.agenciaia.precificacao",
+    "productName": "Agencia IA - Calculadora de Precificacao",
     "directories": {
       "output": "dist_electron"
     },
