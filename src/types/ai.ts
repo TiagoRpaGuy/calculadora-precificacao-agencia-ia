@@ -1,0 +1,51 @@
+export type ComplexityLevel = 'low' | 'medium' | 'high';
+export type AiModel = 'gpt-4o' | 'claude-3-5' | 'gemini-pro';
+export type HostingType = 'self-hosted' | 'cloud';
+export type RoiLevel = 'low' | 'medium' | 'critical';
+
+export interface AiProjectInputs {
+    // Escopo n8n
+    workflowsCount: number;
+    integrationsCount: number;
+
+    // Complexidade
+    complexity: ComplexityLevel;
+
+    // Camada de IA
+    model: AiModel;
+    hasRag: boolean;
+    hasMemory: boolean;
+
+    // Infra e Recorrência
+    hosting: HostingType;
+    estimatedTokens: number;
+
+    // Multiplicadores
+    roi: RoiLevel;
+    isUrgent: boolean;
+    hasIpTransfer: boolean; // Propriedade Intelectual
+
+    // Financeiro (Base)
+    hourlyRate: number; // R$/hora
+    integrationCost: number; // Custo fixo de integrações (licenças etc)
+    supportFee: number; // Fee mensal de suporte
+
+    // Margens
+    marginSetup: number; // %
+    marginRecurring: number; // %
+}
+
+export interface AiProjectResult {
+    // Setup
+    estimatedHours: number;
+    baseSetupValue: number; // (Horas * Rate) + Integrações
+    complexityMarkup: number;
+    urgencyMarkup: number;
+    finalSetupValue: number;
+
+    // Recorrência
+    infraCost: number;
+    tokenCost: number;
+    baseMonthlyCost: number;
+    finalMonthlyValue: number;
+}

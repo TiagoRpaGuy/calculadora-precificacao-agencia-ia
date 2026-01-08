@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Calculator, Clock, RotateCcw } from 'lucide-react';
+import { Calculator, Clock, RotateCcw, Brain } from 'lucide-react';
 import { PricingPage } from './pages/PricingPage';
 import { HourlyPricingPage } from './pages/HourlyPricingPage';
+import { AiPricingPage } from './pages/AiPricingPage';
 
-type TabType = 'pricing' | 'hourly';
+type TabType = 'pricing' | 'hourly' | 'ai';
 
 function App() {
     const [activeTab, setActiveTab] = useState<TabType>('pricing');
@@ -11,12 +12,15 @@ function App() {
     // Keys para forçar reset dos componentes
     const [pricingKey, setPricingKey] = useState(0);
     const [hourlyKey, setHourlyKey] = useState(0);
+    const [aiKey, setAiKey] = useState(0);
 
     const handleResetCurrentPage = () => {
         if (activeTab === 'pricing') {
             setPricingKey(prev => prev + 1);
-        } else {
+        } else if (activeTab === 'hourly') {
             setHourlyKey(prev => prev + 1);
+        } else {
+            setAiKey(prev => prev + 1);
         }
     };
 
@@ -25,10 +29,10 @@ function App() {
             <div className="max-w-6xl mx-auto">
                 <header className="mb-8 text-center">
                     <h1 className="text-3xl font-extrabold text-[#2c3e50] flex justify-center items-center gap-2">
-                        <Calculator className="w-8 h-8 text-green-600" />
-                        Calculadora RPA Soares Logística
+                        <Brain className="w-8 h-8 text-purple-600" />
+                        Agência de IA & Automação
                     </h1>
-                    <p className="text-gray-500 mt-2">Simulação de múltiplos cenários de precificação</p>
+                    <p className="text-gray-500 mt-2">Sistema de Precificação Inteligente</p>
                 </header>
 
                 {/* Tab Navigation */}
@@ -45,19 +49,31 @@ function App() {
                                             }`}
                                     >
                                         <Calculator className="w-4 h-4" />
-                                        Precificação por Projeto
+                                        Precificação RPA
                                     </button>
                                 </li>
                                 <li>
                                     <button
                                         onClick={() => setActiveTab('hourly')}
                                         className={`inline-flex items-center gap-2 px-6 py-3 rounded-t-lg font-medium text-sm transition-colors ${activeTab === 'hourly'
-                                            ? 'bg-white text-purple-600 border-b-2 border-purple-600 shadow-sm'
+                                            ? 'bg-white text-blue-600 border-b-2 border-blue-600 shadow-sm'
                                             : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
                                             }`}
                                     >
                                         <Clock className="w-4 h-4" />
-                                        Simulador por Hora
+                                        Simulador Hora
+                                    </button>
+                                </li>
+                                <li>
+                                    <button
+                                        onClick={() => setActiveTab('ai')}
+                                        className={`inline-flex items-center gap-2 px-6 py-3 rounded-t-lg font-medium text-sm transition-colors ${activeTab === 'ai'
+                                            ? 'bg-white text-purple-600 border-b-2 border-purple-600 shadow-sm'
+                                            : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'
+                                            }`}
+                                    >
+                                        <Brain className="w-4 h-4" />
+                                        Automação de IA & n8n
                                     </button>
                                 </li>
                             </ul>
@@ -69,7 +85,7 @@ function App() {
                                 title="Limpar dados da página atual"
                             >
                                 <RotateCcw className="w-4 h-4" />
-                                Limpar Página
+                                Limpar
                             </button>
                         </div>
                     </div>
@@ -81,6 +97,9 @@ function App() {
                 </div>
                 <div style={{ display: activeTab === 'hourly' ? 'block' : 'none' }}>
                     <HourlyPricingPage key={hourlyKey} />
+                </div>
+                <div style={{ display: activeTab === 'ai' ? 'block' : 'none' }}>
+                    <AiPricingPage key={aiKey} />
                 </div>
             </div>
         </div>
