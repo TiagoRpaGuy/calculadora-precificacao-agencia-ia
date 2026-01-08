@@ -29,34 +29,36 @@ const TOKEN_COST_PER_1K = {
 
 export const calculateAiProject = (inputs: AiProjectInputs): AiProjectResult => {
     // 1. Estimativa de Horas
-    // Base: Workflows * (BaseHours * ComplexityFactor)
-    // Ex: 5 workflows, Medium Complexity -> 5 * (8 * 1.5) = 60 horas
     const hrsMultiplier = BASE_HOURS_MULTIPLIER[inputs.complexity];
     const estimatedHours = inputs.workflowsCount * (HOURS_PER_WORKFLOW_BASE * hrsMultiplier);
 
     // 2. Valor Base de Setup
-    // (Horas * Valor/Hora) + Custo Integrações
     const laborCost = estimatedHours * inputs.hourlyRate;
     const baseSetupValue = laborCost + inputs.integrationCost;
 
     // 3. Multiplicadores de Setup
-    // (1 + % Complexidade + % Urgência)
     const complexityPct = COMPLEXITY_MULTIPLIERS[inputs.complexity];
     const urgencyPct = inputs.isUrgent ? 0.25 : 0;
 
-    // Adicional IA/RAG (Aumenta horas ou valor? Vamos tratar como markup de complexidade técnica no valor)
-    let techMarkup = 0;
-    if (inputs.hasRag) techMarkup += 0.15;
-    if (inputs.hasMemory) techMarkup += 0.10;
-    if (inputs.hasIpTransfer) techMarkup += 0.30; // IP Transfer é caro
+    // Adicionais Técnicos Individuais
+    let ragPct = inputs.hasRag ? 0.15 : 0;
+    let memoryPct = inputs.hasMemory ? 0.10 : 0;
+    let ipPct = inputs.hasIpTransfer ? 0.30 : 0;
 
-    const totalMarkupMultiplier = 1 + complexityPct + urgencyPct + techMarkup;
+    const totalMarkupMultiplier = 1 + complexityPct + urgencyPct + ragPct + memoryPct + ipPct;
 
-    // Valor com Markup Técnico
+    // Valores monetários dos markups (calculados sobre a BASE)
+    const complexityAddon = baseSetupValue * complexityPct;
+    const urgencyAddon = baseSetupValue * urgencyPct;
+    const aiTechAddon = baseSetupValue * (ragPct + memoryPct);
+    const ipTransferAddon = baseSetupValue * ipPct;
+
+    // Valor com Markup Técnico (Pré-Margem)
     let preMarginSetup = baseSetupValue * totalMarkupMultiplier;
 
     // 4. Margem de Lucro Setup
-    const finalSetupValue = preMarginSetup * (1 + (inputs.marginSetup / 100));
+    const marginAddon = preMarginSetup * (inputs.marginSetup / 100);
+    const finalSetupValue = preMarginSetup + marginAddon;
 
     // --- Recorrência ---
 
@@ -64,24 +66,32 @@ export const calculateAiProject = (inputs: AiProjectInputs): AiProjectResult => 
     const infraCost = HOSTING_COSTS[inputs.hosting];
 
     // 2. Custo Tokens
-    // (Total Tokens / 1000) * CustoModelo
     const tokenCost = (inputs.estimatedTokens / 1000) * TOKEN_COST_PER_1K[inputs.model];
 
     // 3. Base Mensal (Custo puro + Suporte)
     const baseMonthlyCost = infraCost + tokenCost + inputs.supportFee;
 
-    // 4. Margem Recorrência (Fixa 1.5 no prompt, mas vamos usar o input tbm se quiser flexivel, ou fixar 50% min)
-    // O prompt diz: (Custo Infra + Custo Tokens + Fee de Suporte) * 1.5 (Margem Recorrência)
-    // Vamos interpretar o input marginRecurring como o "50%" (0.5). Se o user botar 50, é 1.5x.
+    // 4. Margem Recorrência
     const recurrenceMultiplier = 1 + (inputs.marginRecurring / 100);
     const finalMonthlyValue = baseMonthlyCost * recurrenceMultiplier;
 
     return {
         estimatedHours: Math.ceil(estimatedHours),
         baseSetupValue,
-        complexityMarkup: baseSetupValue * (complexityPct + urgencyPct + techMarkup), // Valor monetário adicionado pelos markups
-        urgencyMarkup: 0, // Já somado acima para simplificar display, ou separar se quiser detalhe
+        // Mantendo compatibilidade com campo antigo, somando tudo exceto urgencia que era separado visualmente mas somado no final
+        complexityMarkup: complexityAddon + aiTechAddon + ipTransferAddon,
+        urgencyMarkup: urgencyAddon,
         finalSetupValue,
+
+        breakdown: {
+            hoursValue: laborCost,
+            integrationsValue: inputs.integrationCost,
+            complexityAddon,
+            urgencyAddon,
+            aiTechAddon,
+            ipTransferAddon,
+            marginAddon
+        },
 
         infraCost,
         tokenCost,

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Brain, Server, Rocket, FileText, DollarSign, Cpu, Network } from 'lucide-react';
+import { Brain, Server, Rocket, FileText, DollarSign, Cpu, Network, Info } from 'lucide-react';
 import { AiProjectInputs, AiProjectResult } from '../types/ai';
 import { calculateAiProject } from '../utils/aiCalculations';
 import { exportAiProposalToPdf } from '../utils/exportAiPdf';
 import { CurrencyInput } from '../components/CurrencyInput';
+import { PricingDetailModal } from '../components/PricingDetailModal';
 
 export const AiPricingPage: React.FC = () => {
     // Estado inicial dos inputs
@@ -27,6 +28,7 @@ export const AiPricingPage: React.FC = () => {
     });
 
     const [result, setResult] = useState<AiProjectResult | null>(null);
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
     // Calcular sempre que inputs mudarem
     useEffect(() => {
@@ -220,7 +222,16 @@ export const AiPricingPage: React.FC = () => {
                                     <h3 className="text-lg font-bold text-gray-800">Investimento de Setup</h3>
                                     <p className="text-sm text-gray-500">Desenvolvimento & Implementação</p>
                                 </div>
-                                <Rocket className="w-8 h-8 text-purple-500 opacity-20" />
+                                <div className="flex flex-col gap-2 items-end">
+                                    <Rocket className="w-8 h-8 text-purple-500 opacity-20" />
+                                    <button
+                                        onClick={() => setIsDetailModalOpen(true)}
+                                        className="text-xs flex items-center gap-1 text-purple-600 hover:text-purple-800 font-medium"
+                                    >
+                                        <Info className="w-3 h-3" />
+                                        Ver Detalhes
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="space-y-3 mb-6">
@@ -302,6 +313,15 @@ export const AiPricingPage: React.FC = () => {
                     Exportar Orçamento em PDF
                 </button>
             </div>
+
+            {/* Detail Modal */}
+            {result && (
+                <PricingDetailModal
+                    isOpen={isDetailModalOpen}
+                    onClose={() => setIsDetailModalOpen(false)}
+                    result={result}
+                />
+            )}
         </div>
     );
 };

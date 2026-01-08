@@ -35,6 +35,16 @@ export interface AiProjectInputs {
     marginRecurring: number; // %
 }
 
+export interface SetupBreakdown {
+    hoursValue: number;         // Valor das horas
+    integrationsValue: number;  // Valor das integrações
+    complexityAddon: number;    // Valor adicionado pela complexidade
+    urgencyAddon: number;       // Valor adicionado pela urgência
+    aiTechAddon: number;        // Valor adicionado por RAG/Memória
+    ipTransferAddon: number;    // Valor adicionado por IP Transfer
+    marginAddon: number;        // Valor adicionado pela margem
+}
+
 export interface AiProjectResult {
     // Setup
     estimatedHours: number;
@@ -42,6 +52,9 @@ export interface AiProjectResult {
     complexityMarkup: number;
     urgencyMarkup: number;
     finalSetupValue: number;
+
+    // Detalhamento Setup
+    breakdown: SetupBreakdown;
 
     // Recorrência
     infraCost: number;
