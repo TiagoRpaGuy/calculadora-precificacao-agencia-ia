@@ -16,7 +16,17 @@ Módulo especializado para precificação de Agências de Automação de IA.
   - **Investimento de Setup**: Valor único de implementação com margens e taxas de urgência.
   - **Recorrência Mensal**: Valor de manutenção, suporte e custos de API.
   - **Botão "Ver Detalhes"**: Breakdown completo (Recibo) mostrando a composição matemática do preço (Mão de obra + Adicionais + Margem).
-- **Exportação Profissional**: Gere propostas em **PDF** prontas para enviar ao cliente.
+- **Análise de ROI e Viabilidade**:
+  - Nova calculadora de "Payback Time" (Retorno sobre Investimento).
+  - Projeção de Lucro Anual para o cliente baseada em economia estimada.
+- **WhatsApp & Meta**: Cálculo integrado de custos de operação (Service vs Marketing conversations).
+- **Ferramentas de Vendas de Alto Valor**:
+  - **Tooltips Educativos**: Explicações contextuais para cada item de custo.
+  - **Guia de Precificação**: Modal educativo integrado.
+  - **Proposta Comercial em PDF (Novo Layout)**:
+    - Design profissional com cabeçalho e rodapé.
+    - **Detalhamento de Setup**: Tabela transparente separando Desenvolvimento, Integrações e Arquitetura Avançada.
+    - Área de assinatura e disclaimers jurídicos.
 
 ### 2. Precificação RPA (Por Projeto)
 - **Múltiplos Cenários**: Simule até 10 cenários diferentes simultaneamente.

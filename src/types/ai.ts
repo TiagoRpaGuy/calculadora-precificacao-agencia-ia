@@ -20,6 +20,11 @@ export interface AiProjectInputs {
     hosting: HostingType;
     estimatedTokens: number;
 
+    // WhatsApp Oficial (Meta)
+    hasWhatsapp: boolean;
+    whatsappServiceConversations: number;
+    whatsappMarketingConversations: number;
+
     // Multiplicadores
     roi: RoiLevel;
     isUrgent: boolean;
@@ -29,6 +34,7 @@ export interface AiProjectInputs {
     hourlyRate: number; // R$/hora
     integrationCost: number; // Custo fixo de integrações (licenças etc)
     supportFee: number; // Fee mensal de suporte
+    monthlySavings: number; // Economia/Receita Mensal Estimada (ROI)
 
     // Margens
     marginSetup: number; // %
@@ -59,6 +65,11 @@ export interface AiProjectResult {
     // Recorrência
     infraCost: number;
     tokenCost: number;
+    whatsappCost: number; // Custo Meta
     baseMonthlyCost: number;
     finalMonthlyValue: number;
+
+    // ROI
+    paybackMonths: number;
+    projectedAnnualProfit: number;
 }

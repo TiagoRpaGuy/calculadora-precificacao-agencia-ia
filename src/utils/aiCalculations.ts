@@ -27,6 +27,12 @@ const TOKEN_COST_PER_1K = {
     'gemini-pro': (0.005 * 6)
 };
 
+// Custos Meta (WhatsApp) - USD -> BRL (6.0)
+const META_RATES = {
+    service: 0.03 * 6.00,
+    marketing: 0.06 * 6.00
+};
+
 export const calculateAiProject = (inputs: AiProjectInputs): AiProjectResult => {
     // 1. Estimativa de Horas
     const hrsMultiplier = BASE_HOURS_MULTIPLIER[inputs.complexity];
@@ -68,17 +74,41 @@ export const calculateAiProject = (inputs: AiProjectInputs): AiProjectResult => 
     // 2. Custo Tokens
     const tokenCost = (inputs.estimatedTokens / 1000) * TOKEN_COST_PER_1K[inputs.model];
 
-    // 3. Base Mensal (Custo puro + Suporte)
-    const baseMonthlyCost = infraCost + tokenCost + inputs.supportFee;
+    // 3. Custo WhatsApp (Meta)
+    let whatsappCost = 0;
+    if (inputs.hasWhatsapp) {
+        whatsappCost += inputs.whatsappServiceConversations * META_RATES.service;
+        whatsappCost += inputs.whatsappMarketingConversations * META_RATES.marketing;
+    }
 
-    // 4. Margem Recorrência
+    // 4. Base Mensal (Custo puro + Suporte)
+    const baseMonthlyCost = infraCost + tokenCost + whatsappCost + inputs.supportFee;
+
+    // 5. Margem Recorrência
     const recurrenceMultiplier = 1 + (inputs.marginRecurring / 100);
     const finalMonthlyValue = baseMonthlyCost * recurrenceMultiplier;
+
+    // --- ROI Analysis ---
+
+    // Lucro Mensal Líquido para o Cliente = (Economia - Custo Mensal da Agência)
+    const clientNetMonthlyBenefit = inputs.monthlySavings - finalMonthlyValue;
+
+    // Payback (Meses) = Investimento Setup / Lucro Mensal Líquido
+    // Se não houver benefício mensal (prejuizo) ou savings for 0, payback é infinito
+    let paybackMonths = 0;
+    let projectedAnnualProfit = 0;
+
+    if (clientNetMonthlyBenefit > 0) {
+        paybackMonths = finalSetupValue / clientNetMonthlyBenefit;
+        projectedAnnualProfit = clientNetMonthlyBenefit * 12;
+    } else {
+        paybackMonths = 999; // Infinito/Indeterminado
+        projectedAnnualProfit = clientNetMonthlyBenefit * 12; // Prejuízo projetado
+    }
 
     return {
         estimatedHours: Math.ceil(estimatedHours),
         baseSetupValue,
-        // Mantendo compatibilidade com campo antigo, somando tudo exceto urgencia que era separado visualmente mas somado no final
         complexityMarkup: complexityAddon + aiTechAddon + ipTransferAddon,
         urgencyMarkup: urgencyAddon,
         finalSetupValue,
@@ -95,7 +125,11 @@ export const calculateAiProject = (inputs: AiProjectInputs): AiProjectResult => 
 
         infraCost,
         tokenCost,
+        whatsappCost,
         baseMonthlyCost,
-        finalMonthlyValue
+        finalMonthlyValue,
+
+        paybackMonths,
+        projectedAnnualProfit
     };
 };
