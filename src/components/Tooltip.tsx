@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { HelpCircle, Info } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 
 interface TooltipProps {
     content: string;

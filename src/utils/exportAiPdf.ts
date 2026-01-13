@@ -141,7 +141,7 @@ export const exportAiProposalToPdf = (inputs: AiProjectInputs, result: AiProject
     const mgmtValue = result.breakdown.marginAddon;
     const urgencyValue = result.breakdown.urgencyAddon;
 
-    const setupBody = [
+    const setupBody: any[] = [
         ['Desenvolvimento Workflows/Lógica (' + result.estimatedHours + 'h estimadas)', formatBRL(devValue)],
         [`Integrações de Sistemas (${inputs.integrationsCount} conectores)`, formatBRL(integraValue)]
     ];
@@ -166,7 +166,7 @@ export const exportAiProposalToPdf = (inputs: AiProjectInputs, result: AiProject
         startY: yPos,
         head: [['DESCRIÇÃO', 'VALOR']],
         // @ts-ignore
-        body: setupBody,
+        body: setupBody as any,
         theme: 'plain',
         headStyles: { fillColor: [255, 255, 255], textColor: [150, 150, 150], fontStyle: 'bold', fontSize: 9 },
         styles: { fontSize: 10, cellPadding: 4, textColor: [50, 50, 50] },
@@ -203,7 +203,7 @@ export const exportAiProposalToPdf = (inputs: AiProjectInputs, result: AiProject
     doc.line(14, yPos, pageWidth - 14, yPos);
     yPos += 10;
 
-    const recurringBody = [
+    const recurringBody: any[] = [
         // Group A
         [{ content: 'INFRAESTRUTURA DIRETA (REPASSE)', colSpan: 2, styles: { fontStyle: 'bold', fontSize: 9, textColor: [100, 100, 100] } }],
         ['Consumo API IA (Tokens Estimados)*', formatBRL(result.tokenCost)],
@@ -226,7 +226,7 @@ export const exportAiProposalToPdf = (inputs: AiProjectInputs, result: AiProject
     autoTable(doc, {
         startY: yPos,
         // @ts-ignore
-        body: recurringBody,
+        body: recurringBody as any,
         theme: 'plain',
         styles: { fontSize: 10, cellPadding: 3, textColor: [50, 50, 50] },
         columnStyles: {
